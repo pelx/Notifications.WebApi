@@ -18,6 +18,8 @@ namespace Notifications.WebApi.Models
         [Required]
         public string OrganisationName { get; set; }
         [Required]
+        public string Status { get; set; }
+        [Required]
         public string Reason { get; set; }
 
         [ForeignKey("User")]

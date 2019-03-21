@@ -9,5 +9,6 @@ namespace Notifications.WebApi.Services
     public interface INotificationService
     {
         IEnumerable<Notification> QueryAll();
+        int SaveNotification(Notification notification);
     }
 }

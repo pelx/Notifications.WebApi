@@ -40,10 +40,19 @@ namespace Notifications.WebApi.Controllers
         [HttpPost]
         public ActionResult SaveNotification([FromBody]Notification notification)
         {
+           
             try
             {
                 var valid = TryValidateModel(notification);
-                return Ok(notification);
+
+                if (valid)
+                {
+                    var result = _service.SaveNotification(notification);
+                    return Ok(notification);
+                }
+                    
+
+                return BadRequest();
             }
             catch
             {

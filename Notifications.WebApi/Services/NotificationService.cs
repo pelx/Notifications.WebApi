@@ -14,8 +14,17 @@ namespace Notifications.WebApi.Services
             using (var context = new AppDbContext())
             {
                 return context.Notifications.ToList();
-
             }
+        }
+
+        public int SaveNotification(Notification notification)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Notifications.Add(notification);
+                return context.SaveChanges();
+            }
+
         }
     }
 }
