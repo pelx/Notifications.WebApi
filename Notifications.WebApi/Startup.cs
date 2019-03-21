@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Notifications.WebApi.Services;
+using NSwag.AspNetCore;
+using NJsonSchema;
+
 
 namespace Notifications.WebApi
 {
@@ -25,15 +29,29 @@ namespace Notifications.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            services.AddScoped<INotificationService, NotificationService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddSwaggerDocument();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder =>
+               builder.WithOrigins("http://localhost:4200")
+               .AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // app.UseSwaggerUi3WithApiExplorer(options => options.GeneratorSettings.DefaultPropertyNameHandling = NJsonSchema.PropertyNameHandling.CamelCase);
+                app.UseSwagger();
+                app.UseSwaggerUi3();
             }
             else
             {
