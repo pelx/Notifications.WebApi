@@ -10,6 +10,7 @@ using Notifications.WebApi.Services;
 
 namespace Notifications.WebApi.Controllers
 {
+    // [Route("api/[controller]")]
     [Route("api/[controller]")]
     [ApiController]
     public class NotificationsController : ControllerBase
@@ -43,15 +44,9 @@ namespace Notifications.WebApi.Controllers
            
             try
             {
-                var valid = TryValidateModel(notification);
-
-                if (valid)
-                {
-                    var result = _service.SaveNotification(notification);
-                    return Ok(notification);
-                }
-                    
-
+                if (TryValidateModel(notification) &&
+                    (_service.SaveNotification(notification) > 0))
+                        return Ok(notification);
                 return BadRequest();
             }
             catch

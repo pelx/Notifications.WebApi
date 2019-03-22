@@ -33,7 +33,27 @@ namespace Notifications.WebApi
             services.AddScoped<INotificationService, NotificationService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddSwaggerDocument();
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "Version 1.0";
+                    document.Info.Title = "Notifications API";
+                    document.Info.Description = "ASP.NET Core web API";
+                    document.Info.TermsOfService = "Free of terms";
+                    document.Info.Contact = new NSwag.SwaggerContact
+                    {
+                        Name = "Laura Peppiatt",
+                        Email = string.Empty,
+                        Url = "https://www.linkedin.com/in/laura-peppiatt-aa900225/"
+                    };
+                    document.Info.License = new NSwag.SwaggerLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://example.com/license"
+                    };
+                };
+            });
 
         }
 

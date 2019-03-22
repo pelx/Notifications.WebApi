@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Notifications.WebApi.Data;
 using Notifications.WebApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,11 +20,20 @@ namespace Notifications.WebApi.Services
 
         public int SaveNotification(Notification notification)
         {
-            using (var context = new AppDbContext())
+            try
             {
-                context.Notifications.Add(notification);
-                return context.SaveChanges();
+                using (var context = new AppDbContext())
+                {
+                    context.Notifications.Add(notification);
+                    return context.SaveChanges();
+                }
             }
+            catch 
+            {
+
+                return 0;
+            }
+            
 
         }
     }

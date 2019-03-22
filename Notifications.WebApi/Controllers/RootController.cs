@@ -16,7 +16,12 @@ namespace Notifications.WebApi.Controllers
         {
             var result = new
             {
-                href = Url.Link(nameof(GetRoot), null)
+                href = Url.Link(nameof(GetRoot), null),
+                notifications = new
+                {
+                    href = Url.Link(
+                       nameof(NotificationsController.GetAll), null )
+                }
             };
             return Ok(result);
         }
